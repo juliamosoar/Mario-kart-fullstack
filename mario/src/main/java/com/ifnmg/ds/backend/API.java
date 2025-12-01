@@ -48,25 +48,44 @@ public class API {
         return sorteio(6) + 1;
     }
 
-    public static Rodada entrada(int rodada, int pista, int j1, int j2, int dado1, int dado2,
-            List<Personagem> personagem) throws Exception {
-        int ponto1 = dado1 + pv(pista, personagem, dado1);
-        int ponto2 = dado2 + pv(pista, personagem, dado2);
-        return new Rodada(rodada, pista, j1, j2, ponto1, ponto2);
+    public static Rodada entrada(int rodada, int pista, Personagem j1, Personagem j2, int dado1, int dado2)
+            throws Exception {
+        int ponto1 = dado1 + pv(pista, j1);
+        int ponto2 = dado2 + pv(pista, j2);
+        return new Rodada(rodada, pista, j1.getId(), j2.getId(), ponto1, ponto2);
     }
 
-    private static int pv(int pista, List<Personagem> personagem, int idJogador) throws Exception {
+    private static int pv(int pista, Personagem idJogador) throws Exception {
         if (pista == 1)
-            return personagem.get(idJogador).getVelocidade();
+            return idJogador.getVelocidade();
         else if (pista == 2)
-            return personagem.get(idJogador).getPoder();
+            return idJogador.getPoder();
         else if (pista == 3)
-            return personagem.get(idJogador).getManobrabilidade();
+            return idJogador.getManobrabilidade();
         else
             throw new Exception("Essa opção não esta disponível");
     }
 
-    public static void score(Rodada rodada){
-        
-    }
-}
+    public static void score(Rodada rodada, List<Personagem> personagem){
+        if(rodada.getPista() == 2){
+            if(rodada.getPontuacao1() < rodada.getPontuacao2()){
+                if(personagem.get(rodada.getIdJogador1()).getScore()> 0){
+                    personagem.get(rodada.getIdJogador1()).setScore(personagem.get(rodada.getIdJogador1()).getScore()-1);
+                }
+            }
+            if(rodada.getPontuacao2() < rodada.getPontuacao1()){
+                if(personagem.get(rodada.getIdJogador2()).getScore()> 0){
+                    personagem.get(rodada.getIdJogador2()).setScore(personagem.get(rodada.getIdJogador2()).getScore()-1);
+                }
+            }
+        }
+        else{
+            if(rodada.getPontuacao1() < rodada.getPontuacao2()) {
+                personagem.get(rodada.getIdJogador1()).setScore(personagem.get(rodada.getIdJogador1()).getScore()+1);
+            }
+            if(rodada.getPontuacao2() < rodada.getPontuacao1()){
+              personagem.get(rodada.getIdJogador2()).setScore(personagem.get(rodada.getIdJogador2()).getScore()+1);
+            }
+        }  
+    } 
+}  

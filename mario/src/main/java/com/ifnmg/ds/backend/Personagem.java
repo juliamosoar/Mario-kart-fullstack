@@ -7,6 +7,7 @@ public class Personagem {
     private final int manobrabilidade;
     private final int poder;
     private final String imagem;
+    private int score;
 
     public Personagem(int id, String nome, int velocidade, int manobrabilidade, int poder, String imagem) {
         this.id = id;
@@ -15,6 +16,7 @@ public class Personagem {
         this.manobrabilidade = manobrabilidade;
         this.poder = poder;
         this.imagem = imagem;
+        this.score = 0;
     }
 
     public int getId() {
@@ -39,5 +41,14 @@ public class Personagem {
 
     public String getImagem() {
         return imagem;
-    }   
+    } 
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
 }
